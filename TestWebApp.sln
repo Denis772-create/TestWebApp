@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebApp.WebAPI", "src\Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebApp.UnitTests", "tests\TestWebApp.UnitTests\TestWebApp.UnitTests.csproj", "{2159BAD5-B583-4866-8308-35BA7633F62F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp.IntegrationTests", "tests\TestWebApp.IntegrationTests\TestWebApp.IntegrationTests.csproj", "{13F4B785-BE11-414D-B2E8-5DE9AB5FFD1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebApp.IntegrationTests", "tests\TestWebApp.IntegrationTests\TestWebApp.IntegrationTests.csproj", "{13F4B785-BE11-414D-B2E8-5DE9AB5FFD1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp.FunctionalTests", "tests\TestWebApp.FunctionalTests\TestWebApp.FunctionalTests.csproj", "{D3DFF355-5183-44AD-A2E2-15BA973B320D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebApp.FunctionalTests", "tests\TestWebApp.FunctionalTests\TestWebApp.FunctionalTests.csproj", "{D3DFF355-5183-44AD-A2E2-15BA973B320D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3687E139-0C0A-49F7-B0F1-1B943D927A06}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{396F43DE-F4AB-4A66-A838-0FF92DC1F65E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +58,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C5821617-BF98-4197-8E93-9CCB42A83F69} = {3687E139-0C0A-49F7-B0F1-1B943D927A06}
+		{8A241182-000D-4062-9858-C4ECEB70902E} = {3687E139-0C0A-49F7-B0F1-1B943D927A06}
+		{6969635A-416D-479C-B8FA-F7380BFF4CEA} = {3687E139-0C0A-49F7-B0F1-1B943D927A06}
+		{C4B7AE5E-37EE-4DAC-9983-984948C107BC} = {3687E139-0C0A-49F7-B0F1-1B943D927A06}
+		{2159BAD5-B583-4866-8308-35BA7633F62F} = {396F43DE-F4AB-4A66-A838-0FF92DC1F65E}
+		{13F4B785-BE11-414D-B2E8-5DE9AB5FFD1C} = {396F43DE-F4AB-4A66-A838-0FF92DC1F65E}
+		{D3DFF355-5183-44AD-A2E2-15BA973B320D} = {396F43DE-F4AB-4A66-A838-0FF92DC1F65E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E6D0EE2B-8F92-4710-8F99-5F11F07275EE}
