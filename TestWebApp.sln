@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp.BLL", "src\TestWebApp.BLL\TestWebApp.BLL.csproj", "{C5821617-BF98-4197-8E93-9CCB42A83F69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebApp.BLL", "src\TestWebApp.BLL\TestWebApp.BLL.csproj", "{C5821617-BF98-4197-8E93-9CCB42A83F69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp.DAL", "src\TestWebApp.DAL\TestWebApp.DAL.csproj", "{8A241182-000D-4062-9858-C4ECEB70902E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebApp.DAL", "src\TestWebApp.DAL\TestWebApp.DAL.csproj", "{8A241182-000D-4062-9858-C4ECEB70902E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp.Common", "src\TestWebApp.Common\TestWebApp.Common.csproj", "{6969635A-416D-479C-B8FA-F7380BFF4CEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebApp.Common", "src\TestWebApp.Common\TestWebApp.Common.csproj", "{6969635A-416D-479C-B8FA-F7380BFF4CEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp.WebAPI", "src\TestWebApp.WebAPI\TestWebApp.WebAPI.csproj", "{C4B7AE5E-37EE-4DAC-9983-984948C107BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebApp.WebAPI", "src\TestWebApp.WebAPI\TestWebApp.WebAPI.csproj", "{C4B7AE5E-37EE-4DAC-9983-984948C107BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp.UnitTests", "tests\TestWebApp.UnitTests\TestWebApp.UnitTests.csproj", "{2159BAD5-B583-4866-8308-35BA7633F62F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{C4B7AE5E-37EE-4DAC-9983-984948C107BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4B7AE5E-37EE-4DAC-9983-984948C107BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4B7AE5E-37EE-4DAC-9983-984948C107BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2159BAD5-B583-4866-8308-35BA7633F62F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2159BAD5-B583-4866-8308-35BA7633F62F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2159BAD5-B583-4866-8308-35BA7633F62F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2159BAD5-B583-4866-8308-35BA7633F62F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
