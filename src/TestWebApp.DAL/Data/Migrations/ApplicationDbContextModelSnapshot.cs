@@ -153,13 +153,16 @@ namespace TestWebApp.DAL.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Orders")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("Orders");
 
                     b.ToTable("Orders");
                 });
@@ -188,6 +191,7 @@ namespace TestWebApp.DAL.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
@@ -294,9 +298,7 @@ namespace TestWebApp.DAL.Migrations
                 {
                     b.HasOne("TestWebApp.DAL.Data.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Orders");
 
                     b.Navigation("User");
                 });
