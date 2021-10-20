@@ -22,6 +22,8 @@ namespace TestWebApp.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddMemoryCache();
+            services.AddCors();
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -51,7 +53,16 @@ namespace TestWebApp.WebAPI
             }
 
             app.UseStaticFiles();
+
             app.UseRouting();
+
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+                builder.AllowAnyHeader();
+                builder.AllowCredentials();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
