@@ -3,15 +3,10 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
-namespace TestWebApp.DAL.Models.DatabaseModels
+namespace TestWebApp.DAL.Models.Entities
 {
     public class User : IdentityUser
     {
-        public User()
-        {
-            Orders = new List<Order>();
-        }
-
         [Required]
         public string FirstName { get; set; }
 
@@ -23,5 +18,10 @@ namespace TestWebApp.DAL.Models.DatabaseModels
 
         [ForeignKey("Orders")]
         public virtual ICollection<Order> Orders { get; set; }
+
+        public User()
+        {
+            Orders = new List<Order>();
+        }
     }
 }
