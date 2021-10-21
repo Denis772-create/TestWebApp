@@ -6,14 +6,10 @@ namespace TestWebApp.DAL.Models.DatabaseModels
 {
     public class Order
     {
-        public Order()
-        {
-            DateOfCreation = DateTime.Now;
-        }
-
         [Key]
         public long Id { get; set; }
 
+        [Required, DataType(DataType.Date)]
         public DateTime DateOfCreation { get; set; }
         
         [ForeignKey("User")]
