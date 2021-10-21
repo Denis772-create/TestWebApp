@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using TestWebApp.DAL.Models.DatabaseModels;
 using Microsoft.Extensions.Configuration;
+using TestWebApp.DAL.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TestWebApp.DAL.Data;
-using Swashbuckle;
 
 namespace TestWebApp.WebAPI
 {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using TestWebApp.DAL.Models.DatabaseModels;
+using TestWebApp.DAL.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace TestWebApp.DAL.Data

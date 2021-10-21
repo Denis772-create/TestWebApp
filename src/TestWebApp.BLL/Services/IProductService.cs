@@ -1,13 +1,15 @@
-﻿using System;
+﻿using TestWebApp.DAL.Models.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace TestWebApp.BLL.Services
 {
     public interface IProductService
     {
-        Task<IEnumerable<>>
+        Task<IEnumerable<Product>> GetAllAsync();
+        Task<Product> GetByIdAsync(long id);
+        Task CreateAsync(Product product);
+        Task UpdateAsync(Product product);
+        Task<bool> Delete(long id);
     }
 }
