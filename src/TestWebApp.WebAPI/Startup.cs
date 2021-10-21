@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using TestWebApp.DAL.Data;
+using Swashbuckle;
 
 namespace TestWebApp.WebAPI
 {
@@ -23,7 +25,16 @@ namespace TestWebApp.WebAPI
         {
             services.AddControllers();
             services.AddMemoryCache();
-            services.AddCors();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Us API V1",
+                    Description = "Test ASP.NET Core application for joint project"
+                });
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -54,15 +65,14 @@ namespace TestWebApp.WebAPI
 
             app.UseStaticFiles();
 
-            app.UseRouting();
-
-            app.UseCors(builder =>
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
             {
-                builder.AllowAnyMethod();
-                builder.AllowAnyOrigin();
-                builder.AllowAnyHeader();
-                builder.AllowCredentials();
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Us API V1");
+                c.RoutePrefix = string.Empty;
             });
+
+            app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
