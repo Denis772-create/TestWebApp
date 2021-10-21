@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 
 namespace TestWebApp.DAL.Models.Entities
 {
@@ -20,6 +19,7 @@ namespace TestWebApp.DAL.Models.Entities
         [Required]
         public bool IsAvailable { get; set; }
 
-        public virtual ProductCategory ProductCategory { get; set; }
+        public string ProductCategoryId { get; set; }
+        public ProductCategory ProductCategory { get; set; }
     }
 }
