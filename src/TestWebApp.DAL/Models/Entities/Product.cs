@@ -4,7 +4,7 @@ namespace TestWebApp.DAL.Models.Entities
 {
     public class Product : BaseEntity
     {
-        [Required]
+        [Required(ErrorMessage = "")]
         public string Title { get; set; }
 
         [Required]
