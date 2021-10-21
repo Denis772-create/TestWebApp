@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestWebApp.DAL.Data;
 
 namespace TestWebApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211021183936_asdkj12")]
+    partial class asdkj12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,34 +148,28 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DateOfCreation")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ProductId")
-                        .HasColumnType("TEXT");
-
-<<<<<<< HEAD
-=======
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
->>>>>>> 21212d4d5ad37743867782b343813b6489e6fb3e
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Orders");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Product", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("TEXT");
@@ -185,14 +181,11 @@ namespace TestWebApp.DAL.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("TEXT");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProductCategoryId")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("ProductCategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("QuantityInStock")
                         .HasColumnType("INTEGER");
@@ -203,8 +196,6 @@ namespace TestWebApp.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("ProductCategoryId");
 
                     b.ToTable("Products");
@@ -212,8 +203,9 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.ProductCategory", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("TEXT");
@@ -227,7 +219,6 @@ namespace TestWebApp.DAL.Migrations
                     b.ToTable("ProductCategories");
                 });
 
->>>>>>> 21212d4d5ad37743867782b343813b6489e6fb3e
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -269,8 +260,8 @@ namespace TestWebApp.DAL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("OrderId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
@@ -360,44 +351,24 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
                 {
-<<<<<<< HEAD
-                    b.HasOne("TestWebApp.DAL.Models.Entities.User", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("Orders");
-                });
-
-=======
                     b.HasOne("TestWebApp.DAL.Models.Entities.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Product", b =>
                 {
-                    b.HasOne("TestWebApp.DAL.Models.Entities.Order", null)
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId");
-
                     b.HasOne("TestWebApp.DAL.Models.Entities.ProductCategory", "ProductCategory")
-                        .WithMany("Products")
-                        .HasForeignKey("ProductCategoryId");
+                        .WithMany()
+                        .HasForeignKey("ProductCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProductCategory");
                 });
 
-            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.ProductCategory", b =>
-                {
-                    b.Navigation("Products");
-                });
-
->>>>>>> 21212d4d5ad37743867782b343813b6489e6fb3e
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.User", b =>
                 {
                     b.Navigation("Orders");
