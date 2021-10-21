@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System;
 
 namespace TestWebApp.DAL.Models.DatabaseModels
@@ -13,15 +14,9 @@ namespace TestWebApp.DAL.Models.DatabaseModels
         [Key]
         public long Id { get; set; }
 
-        [Required, DataType(DataType.Date)]
         public DateTime DateOfCreation { get; set; }
-
-        [Required, DataType(DataType.Date)]
-        public DateTime DateOfEditing { get; set; }
-
-        [Required]
-        public string UserId { get; set; }
-
+        
+        [ForeignKey("User")]
         public virtual User User { get; set; }
     }
 }
