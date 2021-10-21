@@ -9,8 +9,8 @@ using TestWebApp.DAL.Data;
 namespace TestWebApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211020190017_qweq")]
-    partial class qweq
+    [Migration("20211021185453_qopqwqw")]
+    partial class qopqwqw
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -146,17 +146,16 @@ namespace TestWebApp.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("TestWebApp.DAL.Data.Order", b =>
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -166,7 +165,61 @@ namespace TestWebApp.DAL.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("TestWebApp.DAL.Data.User", b =>
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Product", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("ProductCategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("QuantityInStock")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductCategoryId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.ProductCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -190,6 +243,7 @@ namespace TestWebApp.DAL.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
@@ -204,6 +258,9 @@ namespace TestWebApp.DAL.Migrations
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OrderId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
@@ -252,7 +309,7 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TestWebApp.DAL.Data.User", null)
+                    b.HasOne("TestWebApp.DAL.Models.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -261,7 +318,7 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TestWebApp.DAL.Data.User", null)
+                    b.HasOne("TestWebApp.DAL.Models.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -276,7 +333,7 @@ namespace TestWebApp.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TestWebApp.DAL.Data.User", null)
+                    b.HasOne("TestWebApp.DAL.Models.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -285,25 +342,32 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TestWebApp.DAL.Data.User", null)
+                    b.HasOne("TestWebApp.DAL.Models.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TestWebApp.DAL.Data.Order", b =>
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
                 {
-                    b.HasOne("TestWebApp.DAL.Data.User", "User")
+                    b.HasOne("TestWebApp.DAL.Models.Entities.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TestWebApp.DAL.Data.User", b =>
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Product", b =>
+                {
+                    b.HasOne("TestWebApp.DAL.Models.Entities.ProductCategory", "ProductCategory")
+                        .WithMany()
+                        .HasForeignKey("ProductCategoryId");
+
+                    b.Navigation("ProductCategory");
+                });
+
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.User", b =>
                 {
                     b.Navigation("Orders");
                 });

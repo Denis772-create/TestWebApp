@@ -9,8 +9,8 @@ using TestWebApp.DAL.Data;
 namespace TestWebApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211021181137_qop")]
-    partial class qop
+    [Migration("20211021185327_qopas")]
+    partial class qopas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,14 +155,68 @@ namespace TestWebApp.DAL.Migrations
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Orders")
+                    b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Orders");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Product", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("ProductCategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("QuantityInStock")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductCategoryId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.ProductCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.User", b =>
@@ -204,6 +258,9 @@ namespace TestWebApp.DAL.Migrations
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OrderId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
@@ -294,9 +351,20 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
                 {
-                    b.HasOne("TestWebApp.DAL.Models.Entities.User", null)
+                    b.HasOne("TestWebApp.DAL.Models.Entities.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("Orders");
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Product", b =>
+                {
+                    b.HasOne("TestWebApp.DAL.Models.Entities.ProductCategory", "ProductCategory")
+                        .WithMany()
+                        .HasForeignKey("ProductCategoryId");
+
+                    b.Navigation("ProductCategory");
                 });
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.User", b =>

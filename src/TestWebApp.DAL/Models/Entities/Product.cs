@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
 namespace TestWebApp.DAL.Models.Entities
 {
     public class Product : BaseEntity
     {
-        [Required(ErrorMessage = "")]
+        [Required]
         public string Title { get; set; }
 
         [Required]
@@ -21,7 +20,6 @@ namespace TestWebApp.DAL.Models.Entities
         [Required]
         public bool IsAvailable { get; set; }
 
-        [ForeignKey("ProductCategoryId")]
-        public virtual ICollection<ProductCategory> ProductCategories { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
     }
 }

@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TestWebApp.DAL.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using TestWebApp.Common.Helpers.Authentication;
+using System.Text;
 
 namespace TestWebApp.WebAPI
 {
@@ -42,6 +46,28 @@ namespace TestWebApp.WebAPI
                     options => options.MigrationsAssembly("TestWebApp.DAL"));
             });
 
+            var jwtAuthConfig = Configuration.Get<JwtAuth>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = true;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = jwtAuthConfig.Issuer,
+
+                        ValidateAudience = true,
+                        ValidAudience = jwtAuthConfig.Audience,
+
+                        ValidateLifetime = true,
+
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtAuthConfig.AccessTokenSecret)),
+                        ValidateIssuerSigningKey = true
+                    };
+                });
+
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 8;
@@ -53,6 +79,13 @@ namespace TestWebApp.WebAPI
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = false;
+                options.LoginPath = "todo: /  /";
+                options.SlidingExpiration = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

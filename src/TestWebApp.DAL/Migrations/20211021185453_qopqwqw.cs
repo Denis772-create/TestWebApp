@@ -2,7 +2,7 @@
 
 namespace TestWebApp.DAL.Migrations
 {
-    public partial class qweq : Migration
+    public partial class qopqwqw : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
