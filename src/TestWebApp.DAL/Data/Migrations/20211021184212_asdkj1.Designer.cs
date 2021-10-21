@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestWebApp.DAL.Data;
 
 namespace TestWebApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211021184212_asdkj1")]
+    partial class asdkj1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,9 +152,6 @@ namespace TestWebApp.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("DateOfCreation")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
@@ -182,7 +181,10 @@ namespace TestWebApp.DAL.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
-                    b.Property<long?>("ProductCategoryId")
+                    b.Property<string>("ProductCategoryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("ProductCategoryId1")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("QuantityInStock")
@@ -194,7 +196,7 @@ namespace TestWebApp.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductCategoryId");
+                    b.HasIndex("ProductCategoryId1");
 
                     b.ToTable("Products");
                 });
@@ -360,7 +362,7 @@ namespace TestWebApp.DAL.Migrations
                 {
                     b.HasOne("TestWebApp.DAL.Models.Entities.ProductCategory", "ProductCategory")
                         .WithMany()
-                        .HasForeignKey("ProductCategoryId");
+                        .HasForeignKey("ProductCategoryId1");
 
                     b.Navigation("ProductCategory");
                 });

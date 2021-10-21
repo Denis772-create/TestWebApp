@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestWebApp.DAL.Data;
 
 namespace TestWebApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211021184055_asdkj12as")]
+    partial class asdkj12as
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,9 +152,6 @@ namespace TestWebApp.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("DateOfCreation")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
@@ -182,7 +181,7 @@ namespace TestWebApp.DAL.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
-                    b.Property<long?>("ProductCategoryId")
+                    b.Property<long>("ProductCategoryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("QuantityInStock")
@@ -258,8 +257,8 @@ namespace TestWebApp.DAL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("OrderId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
@@ -360,7 +359,9 @@ namespace TestWebApp.DAL.Migrations
                 {
                     b.HasOne("TestWebApp.DAL.Models.Entities.ProductCategory", "ProductCategory")
                         .WithMany()
-                        .HasForeignKey("ProductCategoryId");
+                        .HasForeignKey("ProductCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProductCategory");
                 });

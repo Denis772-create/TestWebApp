@@ -16,7 +16,7 @@ namespace TestWebApp.DAL.Models.Entities
         [Required, Phone]
         public string Phone { get; set; }
 
-        [ForeignKey("Orders")]
+        public string OrderId { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
 
         public User()
