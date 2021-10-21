@@ -2,7 +2,7 @@
 
 namespace TestWebApp.DAL.Models.Auth
 {
-    public class RegisterRequeast
+    public class RegisterRequest
     {
         [Required]
         public string FirstName { get; set; }
