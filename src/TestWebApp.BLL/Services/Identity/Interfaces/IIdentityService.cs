@@ -12,10 +12,10 @@ namespace TestWebApp.BLL.Services.Identity.Interfaces
 {
     public interface IIdentityService
     {
-        Maybe<Task<AuthResponse>> RegisterAsync(RegisterRequest request);
+        Task<Maybe<AuthResponse>> RegisterAsync(RegisterRequest request);
 
-        Maybe<Task<AuthResponse>> LoginAsync(LoginRequest request);
+        Task<Maybe<AuthResponse>> LoginAsync(LoginRequest request);
 
-        Maybe<Task<AuthResponse>> RefreshTokenAsync(RefreshRequest request);
+        Task<Maybe<AuthResponse>> RefreshTokenAsync(RefreshRequest request);
     }
 }

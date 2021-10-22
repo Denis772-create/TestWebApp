@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using TestWebApp.DAL.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using TestWebApp.DAL.Models.Auth;
 
 namespace TestWebApp.DAL.Data
 {
@@ -10,6 +11,7 @@ namespace TestWebApp.DAL.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         { }

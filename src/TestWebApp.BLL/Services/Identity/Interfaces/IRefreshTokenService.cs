@@ -10,12 +10,10 @@ namespace TestWebApp.BLL.Services.Identity.Interfaces
 {
     public interface IRefreshTokenService
     {
-        Maybe<Task<RefreshToken>> GetByToken(string token);
+        Task<Maybe<RefreshToken>> GetByTokenAsync(string token);
 
-        Maybe<Task> Create(RefreshToken refreshToken);
+        Task<Result> CreateAsync(RefreshToken refreshToken);
 
-        Maybe<Task> Delete(Guid id);
-
-        Maybe<Task> DeleteAll(Guid userId);
+        Task<Result> DeleteAsync(Guid id);
     }
 }

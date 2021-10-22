@@ -14,11 +14,11 @@ namespace TestWebApp.BLL.Services.Identity.Implement
 {
     public class TokenManager
     {
-        private readonly JwtAuth jwtAuth;
+        private readonly JwtAuth _jwtAuth;
 
         public TokenManager(JwtAuth jwtAuth)
         {
-            this.jwtAuth = jwtAuth;
+            this._jwtAuth = jwtAuth;
         }
 
         public string GenerateToken(string secretKey, string issuer, string audience, double expiration, IEnumerable<Claim> claims = null)
@@ -40,19 +40,19 @@ namespace TestWebApp.BLL.Services.Identity.Implement
         public string GenerateRefreshToken()
         {
             return GenerateToken(
-                jwtAuth.RefreshTokenSecret,
-                jwtAuth.Issuer,
-                jwtAuth.Audience,
-                jwtAuth.RefreshTokenExpirationMinutes);
+                _jwtAuth.RefreshTokenSecret,
+                _jwtAuth.Issuer,
+                _jwtAuth.Audience,
+                _jwtAuth.RefreshTokenExpirationMinutes);
         }
 
         public bool ValidateRefreshToken(string refreshToken)
         {
             TokenValidationParameters validationParameters = new TokenValidationParameters()
             {
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtAuth.RefreshTokenSecret)),
-                ValidIssuer = jwtAuth.Issuer,
-                ValidAudience = jwtAuth.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtAuth.RefreshTokenSecret)),
+                ValidIssuer = _jwtAuth.Issuer,
+                ValidAudience = _jwtAuth.Audience,
                 ValidateIssuerSigningKey = true,
                 ValidateIssuer = true,
                 ValidateAudience = true
@@ -80,10 +80,10 @@ namespace TestWebApp.BLL.Services.Identity.Implement
             };
 
             return GenerateToken(
-                jwtAuth.AccessTokenSecret,
-                jwtAuth.Issuer,
-                jwtAuth.Audience,
-                jwtAuth.ExpirationMinutes,
+                _jwtAuth.AccessTokenSecret,
+                _jwtAuth.Issuer,
+                _jwtAuth.Audience,
+                _jwtAuth.ExpirationMinutes,
                 claims);
         }
     }
