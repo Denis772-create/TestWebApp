@@ -1,6 +1,11 @@
+using TestWebApp.BLL.Repositories.Entities.Interfaces;
+using TestWebApp.BLL.Repositories.Entities.Implement;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using TestWebApp.Common.Helpers.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using TestWebApp.DAL.Models.Entities;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
@@ -8,9 +13,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TestWebApp.DAL.Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using TestWebApp.Common.Helpers.Authentication;
 using System.Text;
 
 namespace TestWebApp.WebAPI
@@ -86,6 +88,8 @@ namespace TestWebApp.WebAPI
                 options.LoginPath = "todo: /  /";
                 options.SlidingExpiration = true;
             });
+
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
