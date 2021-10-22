@@ -85,7 +85,7 @@ namespace TestWebApp.WebAPI
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = false;
-                options.LoginPath = "todo: /  /";
+                //options.LoginPath = "todo: /  /";
                 options.SlidingExpiration = true;
             });
 

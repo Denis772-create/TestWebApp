@@ -2,7 +2,7 @@
 
 namespace TestWebApp.DAL.Migrations
 {
-    public partial class askdjxm : Migration
+    public partial class asdkjx : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -58,7 +58,7 @@ namespace TestWebApp.BLL.Repositories.Entities.Implement
             return false;
         }
 
-        public async Task<bool> Delete(string id)
+        public async Task<bool> DeleteAsync(string id)
         {
             var product = await GetByIdAsync(id);
 

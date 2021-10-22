@@ -144,9 +144,29 @@ namespace TestWebApp.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("TestWebApp.DAL.Models.Auth.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateOfCreation")
@@ -155,12 +175,9 @@ namespace TestWebApp.DAL.Migrations
                     b.Property<string>("ProductId")
                         .HasColumnType("TEXT");
 
-<<<<<<< HEAD
-=======
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
->>>>>>> 21212d4d5ad37743867782b343813b6489e6fb3e
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
@@ -168,11 +185,10 @@ namespace TestWebApp.DAL.Migrations
                     b.ToTable("Orders");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Product", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateOfCreation")
@@ -213,6 +229,7 @@ namespace TestWebApp.DAL.Migrations
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.ProductCategory", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateOfCreation")
@@ -227,7 +244,6 @@ namespace TestWebApp.DAL.Migrations
                     b.ToTable("ProductCategories");
                 });
 
->>>>>>> 21212d4d5ad37743867782b343813b6489e6fb3e
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -360,13 +376,6 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
                 {
-<<<<<<< HEAD
-                    b.HasOne("TestWebApp.DAL.Models.Entities.User", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("Orders");
-                });
-
-=======
                     b.HasOne("TestWebApp.DAL.Models.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
@@ -397,7 +406,6 @@ namespace TestWebApp.DAL.Migrations
                     b.Navigation("Products");
                 });
 
->>>>>>> 21212d4d5ad37743867782b343813b6489e6fb3e
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.User", b =>
                 {
                     b.Navigation("Orders");

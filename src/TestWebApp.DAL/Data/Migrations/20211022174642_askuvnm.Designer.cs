@@ -9,8 +9,8 @@ using TestWebApp.DAL.Data;
 namespace TestWebApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211021184311_asdkjxm")]
-    partial class asdkjxm
+    [Migration("20211022174642_askuvnm")]
+    partial class askuvnm
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -146,13 +146,35 @@ namespace TestWebApp.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("TestWebApp.DAL.Models.Auth.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProductId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
@@ -167,9 +189,9 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Product", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("TEXT");
@@ -181,14 +203,14 @@ namespace TestWebApp.DAL.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("OrderId")
+                        .HasColumnType("TEXT");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProductCategoryId")
                         .HasColumnType("TEXT");
-
-                    b.Property<long?>("ProductCategoryId1")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("QuantityInStock")
                         .HasColumnType("INTEGER");
@@ -199,16 +221,18 @@ namespace TestWebApp.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductCategoryId1");
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductCategoryId");
 
                     b.ToTable("Products");
                 });
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.ProductCategory", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("TEXT");
@@ -363,11 +387,25 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Product", b =>
                 {
+                    b.HasOne("TestWebApp.DAL.Models.Entities.Order", null)
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
+
                     b.HasOne("TestWebApp.DAL.Models.Entities.ProductCategory", "ProductCategory")
-                        .WithMany()
-                        .HasForeignKey("ProductCategoryId1");
+                        .WithMany("Products")
+                        .HasForeignKey("ProductCategoryId");
 
                     b.Navigation("ProductCategory");
+                });
+
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.ProductCategory", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.User", b =>

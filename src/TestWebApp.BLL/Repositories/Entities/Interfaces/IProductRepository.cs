@@ -10,6 +10,6 @@ namespace TestWebApp.BLL.Repositories.Entities.Interfaces
         Task<Product> GetByIdAsync(string id);
         Task<bool> CreateAsync(Product product);
         Task<bool> UpdateAsync(Product product);
-        Task<bool> Delete(string id);
+        Task<bool> DeleteAsync(string id);
     }
 }
