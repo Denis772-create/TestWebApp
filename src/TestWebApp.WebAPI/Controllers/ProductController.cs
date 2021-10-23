@@ -34,7 +34,7 @@ namespace TestWebApp.WebAPI.Controllers
             var product = await _productRepository.GetByIdAsync(productId);
 
             if (product == null)
-                return NotFound();
+                return BadRequest();
 
             return Ok(product);
         }
