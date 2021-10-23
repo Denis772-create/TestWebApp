@@ -13,7 +13,7 @@ namespace TestWebApp.DAL.Models.Entities
         [Required]
         public string Country { get; set; }
 
-        [Required]
+        [Required, Phone]
         public string PhoneNumber { get; set; }
 
         [Required, EmailAddress]
@@ -21,6 +21,9 @@ namespace TestWebApp.DAL.Models.Entities
 
         [Required]
         public decimal TotalPrice { get; set; }
+
+        public string ProductId { get; set; }
+        public virtual Product Product { get; set; }
 
         public string UserId { get; set; }
         public virtual User User { get; set; }

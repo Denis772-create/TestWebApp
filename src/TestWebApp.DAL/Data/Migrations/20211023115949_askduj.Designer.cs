@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestWebApp.DAL.Data;
 
 namespace TestWebApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211023115949_askduj")]
+    partial class askduj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,9 +194,6 @@ namespace TestWebApp.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProductId")
-                        .HasColumnType("TEXT");
-
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("TEXT");
 
@@ -202,8 +201,6 @@ namespace TestWebApp.DAL.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -426,15 +423,9 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
                 {
-                    b.HasOne("TestWebApp.DAL.Models.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
                     b.HasOne("TestWebApp.DAL.Models.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
@@ -442,7 +433,7 @@ namespace TestWebApp.DAL.Migrations
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.OrderDetail", b =>
                 {
                     b.HasOne("TestWebApp.DAL.Models.Entities.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId");
 
                     b.HasOne("TestWebApp.DAL.Models.Entities.Product", "Product")
@@ -461,6 +452,11 @@ namespace TestWebApp.DAL.Migrations
                         .HasForeignKey("ProductCategoryId");
 
                     b.Navigation("ProductCategory");
+                });
+
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.ProductCategory", b =>
