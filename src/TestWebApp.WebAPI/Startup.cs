@@ -89,6 +89,7 @@ namespace TestWebApp.WebAPI
                 options.SlidingExpiration = true;
             });
 
+            services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
         }
 

@@ -32,7 +32,11 @@ namespace TestWebApp.BLL.Repositories.Entities.Implement
 
         public async Task<bool> CreateAsync(Product product)
         {
-            var isProductAvailable = await GetByIdAsync(product.Id);
+            var isProductAvailable = await _context.Products
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p =>
+                    p.Title == product.Title &&
+                    p.Description == product.Description);
 
             if (product != null && isProductAvailable == null)
             {
