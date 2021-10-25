@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TestWebApp.Common.Helpers.Authentication
+﻿namespace TestWebApp.Common.Helpers.Authentication
 {
     public class JwtAuth
     {

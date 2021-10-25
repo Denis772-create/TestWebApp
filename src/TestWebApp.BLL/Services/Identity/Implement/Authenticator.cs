@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TestWebApp.BLL.Services.Identity.Interfaces;
 using TestWebApp.DAL.Models.Auth;
 using TestWebApp.DAL.Models.Auth.Response;
+using TestWebApp.DAL.Models.Entities;
 
 namespace TestWebApp.BLL.Services.Identity.Implement
 {
@@ -22,7 +19,7 @@ namespace TestWebApp.BLL.Services.Identity.Implement
             _refreshTokenService = refreshTokenService;
         }
 
-        public async Task<AuthResponse> Authenticate(IdentityUser user)
+        public async Task<AuthResponse> Authenticate(User user)
         {
             var accessToken = _tokenManager.GenerateToken(user);
             var refreshToken = _tokenManager.GenerateRefreshToken();

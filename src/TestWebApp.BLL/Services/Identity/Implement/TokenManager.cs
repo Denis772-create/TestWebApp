@@ -1,14 +1,12 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using System.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using TestWebApp.Common.Helpers.Authentication;
 using Microsoft.AspNetCore.Identity;
+using TestWebApp.DAL.Models.Entities;
 
 namespace TestWebApp.BLL.Services.Identity.Implement
 {
@@ -21,17 +19,17 @@ namespace TestWebApp.BLL.Services.Identity.Implement
             this._jwtAuth = jwtAuth;
         }
 
-        public string GenerateToken(string secretKey, string issuer, string audience, double expiration, IEnumerable<Claim> claims = null)
+        public string GenerateToken(JwtAuth jwtAuth, IEnumerable<Claim> claims = null)
         {
-            SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtAuth.AccessTokenSecret));
             SigningCredentials signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             JwtSecurityToken token = new JwtSecurityToken(
-                issuer,
-                audience,
+                jwtAuth.Issuer,
+                jwtAuth.Audience,
                 claims,
                 DateTime.UtcNow,
-                DateTime.UtcNow.AddMinutes(expiration),
+                DateTime.UtcNow.AddMinutes(jwtAuth.ExpirationMinutes),
                 signingCredentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -39,11 +37,7 @@ namespace TestWebApp.BLL.Services.Identity.Implement
 
         public string GenerateRefreshToken()
         {
-            return GenerateToken(
-                _jwtAuth.RefreshTokenSecret,
-                _jwtAuth.Issuer,
-                _jwtAuth.Audience,
-                _jwtAuth.RefreshTokenExpirationMinutes);
+            return GenerateToken(_jwtAuth);
         }
 
         public bool ValidateRefreshToken(string refreshToken)
@@ -70,20 +64,18 @@ namespace TestWebApp.BLL.Services.Identity.Implement
             }
         }
 
-        public string GenerateToken(IdentityUser user)
+        public string GenerateToken(User user)
         {
             List<Claim> claims = new List<Claim>
             {
+                new Claim("id", user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, "User")
             };
 
             return GenerateToken(
-                _jwtAuth.AccessTokenSecret,
-                _jwtAuth.Issuer,
-                _jwtAuth.Audience,
-                _jwtAuth.ExpirationMinutes,
+                _jwtAuth,
                 claims);
         }
     }

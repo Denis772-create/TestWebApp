@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System;
 
 namespace TestWebApp.DAL.Models.Entities
 {

@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\Entities\**" />
+    <EmbeddedResource Remove="Services\Entities\**" />
+    <None Remove="Services\Entities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.24.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" />
@@ -30,10 +36,6 @@
   <ItemGroup>
     <ProjectReference Include="..\TestWebApp.Common\TestWebApp.Common.csproj" />
     <ProjectReference Include="..\TestWebApp.DAL\TestWebApp.DAL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\Entities\" />
   </ItemGroup>
 
 </Project>

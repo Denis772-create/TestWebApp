@@ -1,20 +1,19 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TestWebApp.BLL.Services.Identity.Interfaces;
 using TestWebApp.DAL.Models.Auth;
 using TestWebApp.DAL.Models.Auth.Request;
 using TestWebApp.DAL.Models.Auth.Response;
+using TestWebApp.DAL.Models.Entities;
 
 namespace TestWebApp.BLL.Services.Identity.Implement
 {
     public class IdentityService : IIdentityService
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly Authenticator _authenticator;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly TokenManager _tokenManager;
@@ -22,8 +21,9 @@ namespace TestWebApp.BLL.Services.Identity.Implement
         public IdentityService(
             IRefreshTokenService refreshTokenService,
             Authenticator authenticator,
-            UserManager<IdentityUser> userManager,
-            TokenManager tokenManager)
+            UserManager<User> userManager,
+            TokenManager tokenManager,
+            SignInManager<User> signInManager)
         {
             _refreshTokenService = refreshTokenService;
             _authenticator = authenticator;
@@ -36,27 +36,29 @@ namespace TestWebApp.BLL.Services.Identity.Implement
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user != null)
-                return new AuthResponse { Errors = new[] { "Login and Password don't correct." } };
+            {
+                var resultLogin = await _userManager.CheckPasswordAsync(user, request.Password);
 
-            var userHasValidPassword = await _userManager.CheckPasswordAsync(user, request.Password);
-
-            if (userHasValidPassword)
-                return new AuthResponse { Errors = new[] { "Login and Password don't correct." } };
-
-            return await _authenticator.Authenticate(user);
+                if (resultLogin)
+                    return await _authenticator.Authenticate(user);
+                else
+                    return new AuthResponse { Errors = new[] { "Login or Password don't correct." } };
+            }
+            else
+                return new AuthResponse { Errors = new[] { "Login or Password don't correct." } };
         }
 
         public async Task<Maybe<AuthResponse>> RegisterAsync(RegisterRequest request)
         {
-            var existingUserByEmail = await _userManager.FindByEmailAsync(request.Email);
+            var existingUser = await _userManager.FindByEmailAsync(request.Email);
 
-            if (existingUserByEmail != null)
-                return new AuthResponse { Errors = new[] { "Login and Password don't correct." } };
+            if (existingUser != null)
+                return new AuthResponse { Errors = new[] { "User with this Email already exists." } };
 
             if (request.Password != request.ConfirmPassword)
-                return new AuthResponse { Errors = new[] { "Login and Password don't correct." } };
+                return new AuthResponse { Errors = new[] { "Password mismatch." } };
 
-            var user = new IdentityUser
+            var user = new User
             {
                 Email = request.Email
             };
@@ -64,9 +66,9 @@ namespace TestWebApp.BLL.Services.Identity.Implement
             var resultCreate = await _userManager.CreateAsync(user);
 
             if (!resultCreate.Succeeded)
-                return Maybe<AuthResponse>.None;
+                return new AuthResponse { Errors = resultCreate.Errors.Select(e => e.Description) };
 
-            return await _authenticator.Authenticate(user);
+            return new AuthResponse { Success = true };
         }
 
         public async Task<Maybe<AuthResponse>> RefreshTokenAsync(RefreshRequest request)

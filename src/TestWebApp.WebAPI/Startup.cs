@@ -14,6 +14,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TestWebApp.DAL.Data;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
+using TestWebApp.BLL.Services.Identity.Interfaces;
+using TestWebApp.BLL.Services.Identity.Implement;
 
 namespace TestWebApp.WebAPI
 {
@@ -28,8 +31,10 @@ namespace TestWebApp.WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options =>
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
             services.AddMemoryCache();
+            services.AddCors();
 
             services.AddSwaggerGen(c =>
             {
@@ -82,13 +87,10 @@ namespace TestWebApp.WebAPI
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.HttpOnly = false;
-                //options.LoginPath = "todo: /  /";
-                options.SlidingExpiration = true;
-            });
-
+            services.AddSingleton<IIdentityService, IdentityService>();
+            services.AddSingleton<IRefreshTokenService, RefreshTokenService>();
+            services.AddSingleton<TokenManager>();
+            services.AddScoped<Authenticator>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
         }
@@ -110,6 +112,13 @@ namespace TestWebApp.WebAPI
             });
 
             app.UseRouting();
+
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
