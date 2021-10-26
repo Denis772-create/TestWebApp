@@ -60,10 +60,14 @@ namespace TestWebApp.BLL.Services.Identity.Implement
 
             var user = new User
             {
-                Email = request.Email
+                Email = request.Email,
+                UserName = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                PhoneNumber = request.PhoneNumber
             };
 
-            var resultCreate = await _userManager.CreateAsync(user);
+            var resultCreate = await _userManager.CreateAsync(user, request.Password);
 
             if (!resultCreate.Succeeded)
                 return new AuthResponse { Errors = resultCreate.Errors.Select(e => e.Description) };
@@ -80,7 +84,7 @@ namespace TestWebApp.BLL.Services.Identity.Implement
 
             var refreshToken = await _refreshTokenService.GetByTokenAsync(request.RefreshToken);
 
-            if (refreshToken.HasValue)
+            if (!refreshToken.HasValue)
                 return new AuthResponse { Errors = new[] { "Refresh not found" } };
 
             await _refreshTokenService.DeleteAsync(refreshToken.Value.Id);

@@ -17,6 +17,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using TestWebApp.BLL.Services.Identity.Interfaces;
 using TestWebApp.BLL.Services.Identity.Implement;
+using System.Threading.Tasks;
 
 namespace TestWebApp.WebAPI
 {
@@ -31,8 +32,7 @@ namespace TestWebApp.WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(options =>
-                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
+            services.AddControllers();
             services.AddMemoryCache();
             services.AddCors();
 
@@ -53,7 +53,9 @@ namespace TestWebApp.WebAPI
                     options => options.MigrationsAssembly("TestWebApp.DAL"));
             });
 
-            var jwtAuthConfig = Configuration.Get<JwtAuth>();
+            var jwtAuthConfig = new JwtAuth();
+            Configuration.Bind("JwtAuth", jwtAuthConfig);
+            services.AddSingleton(jwtAuthConfig);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -75,6 +77,11 @@ namespace TestWebApp.WebAPI
                     };
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+            });
+
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 8;
@@ -87,12 +94,12 @@ namespace TestWebApp.WebAPI
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddSingleton<IIdentityService, IdentityService>();
-            services.AddSingleton<IRefreshTokenService, RefreshTokenService>();
-            services.AddSingleton<TokenManager>();
+            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<Authenticator>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddSingleton<TokenManager>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

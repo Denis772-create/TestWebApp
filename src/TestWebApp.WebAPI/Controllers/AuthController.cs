@@ -29,7 +29,7 @@ namespace TestWebApp.WebAPI.Controllers
         [HttpPost(ApiRoutes.Auth.Login)]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(new AuthResponse { Errors = ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage)) });
 
             var resultLogin = await _identityService.LoginAsync(request);
@@ -38,7 +38,7 @@ namespace TestWebApp.WebAPI.Controllers
             if (!response.Success)
                 return BadRequest(new AuthResponse { Errors = response.Errors });
 
-            return Ok(new AuthResponse { AccessToken = response.AccessToken });
+            return Ok(response);
         }
 
         [HttpPost(ApiRoutes.Auth.Register)]
@@ -56,7 +56,7 @@ namespace TestWebApp.WebAPI.Controllers
             return Ok();
         }
 
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete(ApiRoutes.Auth.Logout)]
         public async Task<IActionResult> Logout()
         {
@@ -70,7 +70,7 @@ namespace TestWebApp.WebAPI.Controllers
             return NoContent();
         }
 
-        [HttpGet(ApiRoutes.Auth.Refresh)]
+        [HttpPost(ApiRoutes.Auth.Refresh)]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
         {
             if (!ModelState.IsValid)
@@ -82,7 +82,7 @@ namespace TestWebApp.WebAPI.Controllers
             if (!response.Success)
                 return BadRequest(new AuthResponse { Errors = response.Errors });
 
-            return Ok(new AuthResponse { AccessToken = response.AccessToken, RefreshToken = response.RefreshToken });
+            return Ok(response);
         }
     }
 }

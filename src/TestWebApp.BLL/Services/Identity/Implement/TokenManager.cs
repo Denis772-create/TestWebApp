@@ -19,9 +19,9 @@ namespace TestWebApp.BLL.Services.Identity.Implement
             this._jwtAuth = jwtAuth;
         }
 
-        public string GenerateToken(JwtAuth jwtAuth, IEnumerable<Claim> claims = null)
+        public string GenerateToken(JwtAuth jwtAuth, string secretKey, IEnumerable<Claim> claims = null)
         {
-            SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtAuth.AccessTokenSecret));
+            SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             SigningCredentials signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             JwtSecurityToken token = new JwtSecurityToken(
@@ -37,7 +37,7 @@ namespace TestWebApp.BLL.Services.Identity.Implement
 
         public string GenerateRefreshToken()
         {
-            return GenerateToken(_jwtAuth);
+            return GenerateToken(_jwtAuth, _jwtAuth.RefreshTokenSecret);
         }
 
         public bool ValidateRefreshToken(string refreshToken)
@@ -49,7 +49,8 @@ namespace TestWebApp.BLL.Services.Identity.Implement
                 ValidAudience = _jwtAuth.Audience,
                 ValidateIssuerSigningKey = true,
                 ValidateIssuer = true,
-                ValidateAudience = true
+                ValidateAudience = true,
+                ClockSkew = TimeSpan.Zero
             };
 
             try
@@ -76,6 +77,7 @@ namespace TestWebApp.BLL.Services.Identity.Implement
 
             return GenerateToken(
                 _jwtAuth,
+                _jwtAuth.AccessTokenSecret,
                 claims);
         }
     }

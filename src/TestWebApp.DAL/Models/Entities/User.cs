@@ -14,9 +14,6 @@ namespace TestWebApp.DAL.Models.Entities
         [Required]
         public string LastName { get; set; }
 
-        [Required, Phone]
-        public string Phone { get; set; }
-
         public string OrderId { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
 

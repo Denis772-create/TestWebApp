@@ -14,6 +14,9 @@ namespace TestWebApp.DAL.Models.Auth.Request
         [UIHint("Email"), EmailAddress]
         public string Email { get; set; }
 
+        [Required, Phone]
+        public string PhoneNumber { get; set; }
+
         [Required(ErrorMessage = "Password not specified")]
         [UIHint("Password")]
         public string Password { get; set; }
