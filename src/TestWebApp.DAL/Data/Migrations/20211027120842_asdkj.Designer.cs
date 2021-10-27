@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestWebApp.DAL.Data;
 
 namespace TestWebApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211027120842_asdkj")]
+    partial class asdkj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,6 +175,9 @@ namespace TestWebApp.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ProductId")
+                        .HasColumnType("TEXT");
+
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("TEXT");
 
@@ -202,6 +207,9 @@ namespace TestWebApp.DAL.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("OrderId")
+                        .HasColumnType("TEXT");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
@@ -216,6 +224,8 @@ namespace TestWebApp.DAL.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductCategoryId");
 
@@ -279,6 +289,9 @@ namespace TestWebApp.DAL.Migrations
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OrderId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
@@ -384,18 +397,29 @@ namespace TestWebApp.DAL.Migrations
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
                 {
-                    b.HasOne("TestWebApp.DAL.Models.Entities.User", null)
+                    b.HasOne("TestWebApp.DAL.Models.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Product", b =>
                 {
+                    b.HasOne("TestWebApp.DAL.Models.Entities.Order", null)
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
+
                     b.HasOne("TestWebApp.DAL.Models.Entities.ProductCategory", "ProductCategory")
                         .WithMany("Products")
                         .HasForeignKey("ProductCategoryId");
 
                     b.Navigation("ProductCategory");
+                });
+
+            modelBuilder.Entity("TestWebApp.DAL.Models.Entities.Order", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("TestWebApp.DAL.Models.Entities.ProductCategory", b =>

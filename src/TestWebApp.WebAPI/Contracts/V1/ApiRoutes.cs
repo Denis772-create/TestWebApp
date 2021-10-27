@@ -15,6 +15,15 @@
             public const string Delete = Base + "/product/{productId}";
         }
 
+        public static class Order
+        {
+            public const string GetAll = Base + "/orders";
+            public const string Get = Base + "/order/{orderId}";
+            public const string Create = Base + "/order";
+            public const string Update = Base + "/order/{orderId}";
+            public const string Delete = Base + "/order/{orderId}";
+        }
+
         public static class Auth
         {
             public const string Login = Base + "/auth/login";

@@ -1,10 +1,11 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using TestWebApp.DAL.Models.Entities;
 using System.Collections.Generic;
 
-namespace TestWebApp.DAL.Models.Entities
+namespace TestWebApp.DAL.Models.Auth.Requests
 {
-    public class Order : BaseEntity
+    public class OrderRequest
     {
         [Required(ErrorMessage = "Please, enter first name")]
         public string FirstName { get; set; }

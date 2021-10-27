@@ -1,11 +1,11 @@
-﻿using TestWebApp.BLL.Repositories.Entities.Interfaces;
+﻿using TestWebApp.BLL.Repositories.Interfaces;
 using TestWebApp.DAL.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TestWebApp.DAL.Data;
 
-namespace TestWebApp.BLL.Repositories.Entities.Implement
+namespace TestWebApp.BLL.Repositories.Implement
 {
     public class OrderRepository : IOrderRepository
     {
@@ -13,12 +13,12 @@ namespace TestWebApp.BLL.Repositories.Entities.Implement
 
         public OrderRepository(ApplicationDbContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public async Task<IEnumerable<Order>> GetAllAsync()
         {
-            var orders = await _context.Orders.AsNoTracking().Include(o => o.Product).Include(o => o.User).ToListAsync();
+            var orders = await _context.Orders.AsNoTracking().ToListAsync();
 
             return orders;
         }
@@ -32,9 +32,7 @@ namespace TestWebApp.BLL.Repositories.Entities.Implement
 
         public async Task<bool> CreateAsync(Order order)
         {
-            var isOrderAvailable = await GetByIdAsync(order.Id);
-
-            if (order != null && isOrderAvailable == null)
+            if (order is not null)
             {
                 await _context.Orders.AddAsync(order);
                 var created = await _context.SaveChangesAsync();
@@ -47,7 +45,7 @@ namespace TestWebApp.BLL.Repositories.Entities.Implement
 
         public async Task<bool> UpdateAsync(Order order)
         {
-            if (order != null)
+            if (order is not null)
             {
                 _context.Orders.Update(order);
                 var updated = await _context.SaveChangesAsync();
@@ -62,7 +60,7 @@ namespace TestWebApp.BLL.Repositories.Entities.Implement
         {
             var order = await GetByIdAsync(id);
 
-            if (order != null)
+            if (order is not null)
             {
                 _context.Orders.Remove(order);
                 var deleted = await _context.SaveChangesAsync();

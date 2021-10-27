@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace TestWebApp.BLL.Repositories.Entities.Interfaces
+namespace TestWebApp.BLL.Repositories.Interfaces
 {
     public interface IProductRepository
     {

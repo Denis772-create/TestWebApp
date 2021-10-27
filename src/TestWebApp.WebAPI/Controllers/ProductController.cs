@@ -1,5 +1,5 @@
-﻿using TestWebApp.BLL.Repositories.Entities.Interfaces;
-using TestWebApp.DAL.Models.Auth.Request;
+﻿using TestWebApp.BLL.Repositories.Interfaces;
+using TestWebApp.DAL.Models.Auth.Requests;
 using TestWebApp.DAL.Models.Entities;
 using TestWebApp.WebAPI.Contracts.V1;
 using Microsoft.AspNetCore.Mvc;

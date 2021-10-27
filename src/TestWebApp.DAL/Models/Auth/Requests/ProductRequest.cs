@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using TestWebApp.DAL.Models.Entities;
 
-namespace TestWebApp.DAL.Models.Auth.Request
+namespace TestWebApp.DAL.Models.Auth.Requests
 {
     public class ProductRequest
     {

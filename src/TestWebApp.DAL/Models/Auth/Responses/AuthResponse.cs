@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TestWebApp.DAL.Models.Auth.Response
+namespace TestWebApp.DAL.Models.Auth.Responses
 {
     public class AuthResponse
     {

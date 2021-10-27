@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using TestWebApp.DAL.Models.Entities;
 using Microsoft.EntityFrameworkCore;
-using TestWebApp.DAL.Models.Auth;
+using TestWebApp.DAL.Models;
 
 namespace TestWebApp.DAL.Data
 {
