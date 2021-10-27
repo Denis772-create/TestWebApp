@@ -1,5 +1,3 @@
-using TestWebApp.BLL.Repositories.Entities.Interfaces;
-using TestWebApp.BLL.Repositories.Entities.Implement;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TestWebApp.Common.Helpers.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,10 +12,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TestWebApp.DAL.Data;
 using System.Text;
-using Microsoft.AspNetCore.Mvc;
 using TestWebApp.BLL.Services.Identity.Interfaces;
 using TestWebApp.BLL.Services.Identity.Implement;
-using System.Threading.Tasks;
+using TestWebApp.BLL.Repositories.Interfaces;
+using TestWebApp.BLL.Repositories.Implement;
 
 namespace TestWebApp.WebAPI
 {
@@ -94,11 +92,11 @@ namespace TestWebApp.WebAPI
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<IIdentityService, IdentityService>();
-            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<Authenticator>();
+            services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddSingleton<TokenManager>();
         }
 

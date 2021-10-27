@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
 
-namespace TestWebApp.DAL.Models.Auth
+namespace TestWebApp.DAL.Models
 {
     public class RefreshToken
     {

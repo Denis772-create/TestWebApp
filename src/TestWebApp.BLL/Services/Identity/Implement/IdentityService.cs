@@ -4,9 +4,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TestWebApp.BLL.Services.Identity.Interfaces;
-using TestWebApp.DAL.Models.Auth;
-using TestWebApp.DAL.Models.Auth.Request;
-using TestWebApp.DAL.Models.Auth.Response;
+using TestWebApp.DAL.Models.Auth.Requests;
+using TestWebApp.DAL.Models.Auth.Responses;
 using TestWebApp.DAL.Models.Entities;
 
 namespace TestWebApp.BLL.Services.Identity.Implement

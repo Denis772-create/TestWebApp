@@ -1,27 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using TestWebApp.BLL.Repositories.Interfaces;
+using TestWebApp.DAL.Models.Auth.Requests;
+using TestWebApp.DAL.Models.Entities;
+using TestWebApp.WebAPI.Contracts.V1;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using TestWebApp.BLL.Repositories.Interfaces;
-using TestWebApp.DAL.Models.Auth.Request;
 
 namespace TestWebApp.WebAPI.Controllers
 {
-    [Route("api/order")]
     [ApiController]
     public class OrderController : Controller
     {
-        private readonly IProductRepository _orderRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        public OrderController(IProductRepository orderRepository)
+        public OrderController(IOrderRepository orderRepository)
         {
             this._orderRepository = orderRepository;
         }
 
-        [HttpGet("getall")]
-        public async Task<IActionResult> GetProductsAsync()
+        [HttpGet(ApiRoutes.Order.GetAll)]
+        public async Task<IActionResult> GetOrdersAsync()
         {
             var orders = await _orderRepository.GetAllAsync();
 
@@ -31,10 +28,10 @@ namespace TestWebApp.WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpGet("{productId}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] string productId)
+        [HttpGet(ApiRoutes.Order.Get)]
+        public async Task<IActionResult> GetByIdAsync([FromRoute] string orderId)
         {
-            var order = await _orderRepository.GetByIdAsync(productId);
+            var order = await _orderRepository.GetByIdAsync(orderId);
 
             if (order == null)
                 return BadRequest();
@@ -43,61 +40,63 @@ namespace TestWebApp.WebAPI.Controllers
         }
 
 
-        [HttpPost("create")]
+        [HttpPost(ApiRoutes.Order.Create)]
         public async Task<IActionResult> CreateAsync([FromBody] OrderRequest request)
         {
             if (request == null)
                 return BadRequest();
 
-            //var product = new Product()
-            //{
-            //    Title = request.Title,
-            //    Description = request.Description,
-            //    Price = request.Price,
-            //    QuantityInStock = request.QuantityInStock,
-            //    IsAvailable = request.IsAvailable,
-            //};
+            var order = new Order()
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Country = request.Country,
+                Email = request.Email,
+                PhoneNumber = request.PhoneNumber,
+                TotalPrice = request.TotalPrice
+            };
 
-            //var created = await _productRepository.CreateAsync(product);
+            var created = await _orderRepository.CreateAsync(order);
 
-            //if (created)
-            //    return Ok();
-
-            return BadRequest();
-        }
-
-        [HttpPost("update")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] string productId, [FromBody] ProductRequest request)
-        {
-            //var product = await _productRepository.GetByIdAsync(productId);
-
-            //if (product == null)
-            //    return BadRequest();
-
-            //product.Title = request.Title;
-            //product.Description = request.Description;
-            //product.Price = request.Price;
-            //product.QuantityInStock = request.QuantityInStock;
-            //product.IsAvailable = request.IsAvailable;
-
-            //var updated = await _productRepository.UpdateAsync(product);
-
-            //if (updated)
-            //    return Ok();
+            if (created)
+                return Ok();
 
             return BadRequest();
         }
 
-        [HttpPost("delete")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] string productId)
+        [HttpPut(ApiRoutes.Order.Update)]
+        public async Task<IActionResult> UpdateAsync([FromRoute] string orderId, [FromBody] OrderRequest request)
         {
-            //if (productId == default)
-            //    return BadRequest();
+            var order = await _orderRepository.GetByIdAsync(orderId);
 
-            //var deleted = await _productRepository.DeleteAsync(productId);
+            if (order == null)
+                return BadRequest();
 
-            //if (deleted)
-            //    return Ok();
+            order.FirstName = request.FirstName;
+            order.LastName = request.LastName;
+            order.Country = request.Country;
+            order.Email = request.Email;
+            order.PhoneNumber = request.PhoneNumber;
+            order.TotalPrice = request.TotalPrice;
+
+            var updated = await _orderRepository.UpdateAsync(order);
+
+            if (updated)
+                return Ok();
+
+            return BadRequest();
+        }
+
+        [HttpDelete(ApiRoutes.Order.Delete)]
+        public async Task<IActionResult> DeleteAsync([FromRoute] string orderId)
+        {
+            if (orderId == default)
+                return BadRequest();
+
+            var deleted = await _orderRepository.DeleteAsync(orderId);
+
+            if (deleted)
+                return Ok();
 
             return BadRequest();
         }

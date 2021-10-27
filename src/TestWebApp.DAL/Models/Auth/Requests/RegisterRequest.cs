@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TestWebApp.DAL.Models.Auth.Request
+namespace TestWebApp.DAL.Models.Auth.Requests
 {
     public class RegisterRequest
     {

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using CSharpFunctionalExtensions;
 using System.Threading.Tasks;
-using TestWebApp.DAL.Models.Auth;
-using CSharpFunctionalExtensions;
+using TestWebApp.DAL.Models;
+using System;
 
 namespace TestWebApp.BLL.Services.Identity.Interfaces
 {

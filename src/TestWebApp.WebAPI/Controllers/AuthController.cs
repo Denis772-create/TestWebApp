@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using TestWebApp.BLL.Services.Identity.Interfaces;
+using TestWebApp.DAL.Models.Auth.Responses;
+using TestWebApp.DAL.Models.Auth.Requests;
 using Microsoft.AspNetCore.Authorization;
+using TestWebApp.WebAPI.Contracts.V1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using TestWebApp.BLL.Services.Identity.Interfaces;
-using TestWebApp.DAL.Models.Auth.Request;
-using TestWebApp.DAL.Models.Auth.Response;
-using TestWebApp.WebAPI.Contracts.V1;
+using System.Security.Claims;
+using System.Linq;
 
 namespace TestWebApp.WebAPI.Controllers
 {

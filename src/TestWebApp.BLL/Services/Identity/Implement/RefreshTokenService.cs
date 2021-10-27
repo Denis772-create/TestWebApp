@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestWebApp.BLL.Services.Identity.Interfaces;
 using TestWebApp.DAL.Data;
+using TestWebApp.DAL.Models;
 using TestWebApp.DAL.Models.Auth;
 
 namespace TestWebApp.BLL.Services.Identity.Implement
