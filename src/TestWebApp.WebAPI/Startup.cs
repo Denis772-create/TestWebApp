@@ -1,8 +1,8 @@
+using TestWebApp.BLL.Repositories.Entities.Interfaces;
+using TestWebApp.BLL.Repositories.Entities.Implement;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TestWebApp.Common.Helpers.Authentication;
 using Microsoft.Extensions.DependencyInjection;
-using TestWebApp.BLL.Repositories.Interfaces;
-using TestWebApp.BLL.Repositories.Implement;
 using Microsoft.Extensions.Configuration;
 using TestWebApp.DAL.Models.Entities;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +14,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TestWebApp.DAL.Data;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
+using TestWebApp.BLL.Services.Identity.Interfaces;
+using TestWebApp.BLL.Services.Identity.Implement;
+using System.Threading.Tasks;
 
 namespace TestWebApp.WebAPI
 {
@@ -30,6 +34,7 @@ namespace TestWebApp.WebAPI
         {
             services.AddControllers();
             services.AddMemoryCache();
+            services.AddCors();
 
             services.AddSwaggerGen(c =>
             {
@@ -48,7 +53,9 @@ namespace TestWebApp.WebAPI
                     options => options.MigrationsAssembly("TestWebApp.DAL"));
             });
 
-            var jwtAuthConfig = Configuration.Get<JwtAuth>();
+            var jwtAuthConfig = new JwtAuth();
+            Configuration.Bind("JwtAuth", jwtAuthConfig);
+            services.AddSingleton(jwtAuthConfig);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -70,6 +77,11 @@ namespace TestWebApp.WebAPI
                     };
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+            });
+
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 8;
@@ -82,14 +94,12 @@ namespace TestWebApp.WebAPI
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.HttpOnly = false;
-                //options.LoginPath = "todo: /  /";
-                options.SlidingExpiration = true;
-            });
-
+            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            services.AddScoped<Authenticator>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddSingleton<TokenManager>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -109,6 +119,13 @@ namespace TestWebApp.WebAPI
             });
 
             app.UseRouting();
+
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

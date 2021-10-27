@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TestWebApp.DAL.Models.Auth
+namespace TestWebApp.DAL.Models.Auth.Request
 {
     public class RegisterRequest
     {
@@ -13,6 +13,9 @@ namespace TestWebApp.DAL.Models.Auth
         [Required(ErrorMessage = "Email not specified")]
         [UIHint("Email"), EmailAddress]
         public string Email { get; set; }
+
+        [Required, Phone]
+        public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Password not specified")]
         [UIHint("Password")]

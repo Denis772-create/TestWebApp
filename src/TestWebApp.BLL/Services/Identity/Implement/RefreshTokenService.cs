@@ -1,8 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TestWebApp.BLL.Services.Identity.Interfaces;
 using TestWebApp.DAL.Data;
@@ -31,6 +31,24 @@ namespace TestWebApp.BLL.Services.Identity.Implement
                 return Result.Failure(e.Message);
             }
 
+            return Result.Success();
+        }
+
+        public async Task<Result> DeleteAll(string userId)
+        {
+            try
+            {
+                IEnumerable<RefreshToken> refreshTokens = await _context.RefreshTokens
+                 .Where(t => t.UserId == userId)
+                 .ToListAsync();
+
+                _context.RefreshTokens.RemoveRange(refreshTokens);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return Result.Failure(e.Message);
+            }
             return Result.Success();
         }
 

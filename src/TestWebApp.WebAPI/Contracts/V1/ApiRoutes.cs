@@ -1,5 +1,4 @@
-﻿
-namespace TestWebApp.WebAPI.Contracts.V1
+﻿namespace TestWebApp.WebAPI.Contracts.V1
 {
     public static class ApiRoutes
     {
@@ -14,6 +13,14 @@ namespace TestWebApp.WebAPI.Contracts.V1
             public const string Create = Base + "/product";
             public const string Update = Base + "/product/{productId}";
             public const string Delete = Base + "/product/{productId}";
+        }
+
+        public static class Auth
+        {
+            public const string Login = Base + "/auth/login";
+            public const string Register = Base + "/auth/register";
+            public const string Logout = Base + "/auth/logout";
+            public const string Refresh = Base + "/auth/refresh";
         }
     }
 }
