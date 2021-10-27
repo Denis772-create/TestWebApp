@@ -1,8 +1,8 @@
-using TestWebApp.BLL.Repositories.Entities.Interfaces;
-using TestWebApp.BLL.Repositories.Entities.Implement;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TestWebApp.Common.Helpers.Authentication;
 using Microsoft.Extensions.DependencyInjection;
+using TestWebApp.BLL.Repositories.Interfaces;
+using TestWebApp.BLL.Repositories.Implement;
 using Microsoft.Extensions.Configuration;
 using TestWebApp.DAL.Models.Entities;
 using Microsoft.IdentityModel.Tokens;
@@ -89,7 +89,6 @@ namespace TestWebApp.WebAPI
                 options.SlidingExpiration = true;
             });
 
-            services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
         }
 

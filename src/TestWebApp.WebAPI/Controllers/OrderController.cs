@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestWebApp.BLL.Repositories.Entities.Interfaces;
+using TestWebApp.BLL.Repositories.Interfaces;
 using TestWebApp.DAL.Models.Auth.Request;
 
 namespace TestWebApp.WebAPI.Controllers
@@ -13,9 +13,9 @@ namespace TestWebApp.WebAPI.Controllers
     [ApiController]
     public class OrderController : Controller
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _orderRepository;
 
-        public OrderController(IOrderRepository orderRepository)
+        public OrderController(IProductRepository orderRepository)
         {
             this._orderRepository = orderRepository;
         }

@@ -1,4 +1,4 @@
-﻿using TestWebApp.BLL.Repositories.Entities.Interfaces;
+﻿using TestWebApp.BLL.Repositories.Interfaces;
 using TestWebApp.DAL.Models.Auth.Request;
 using TestWebApp.DAL.Models.Entities;
 using TestWebApp.WebAPI.Contracts.V1;
