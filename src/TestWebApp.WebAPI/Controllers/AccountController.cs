@@ -98,8 +98,7 @@ namespace TestWebApp.WebAPI.Controllers
             return Ok(new AuthResponse { Errors = new List<string> { "User not found or not valid." } }); ;
         }
 
-        [HttpPost]
-        [AllowAnonymous]
+        [HttpPost(ApiRoutes.Account.ConfirmEmail)]
         public async Task<IActionResult> ConfirmEmail(string email)
         {
             if (!ModelState.IsValid)
@@ -127,8 +126,7 @@ namespace TestWebApp.WebAPI.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        [AllowAnonymous]
+        [HttpGet(ApiRoutes.Account.ConfirmEmail)]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)

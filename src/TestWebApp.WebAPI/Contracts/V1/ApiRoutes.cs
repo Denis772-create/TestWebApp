@@ -37,6 +37,7 @@
             public const string ChangePassword = Base + "/account/changepassword";
             public const string ForgotPassword = Base + "/account/forgotpassword";
             public const string ResetPassword = Base + "/account/resetpassword";
+            public const string ConfirmEmail = Base + "/account/confirmemail";
         }
     }
 }
