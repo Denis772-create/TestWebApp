@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestWebApp.BLL.Services.Identity.Implement;
 using TestWebApp.DAL.Models.Auth.Request;
-using TestWebApp.DAL.Models.Auth.Response;
+using TestWebApp.DAL.Models.Auth.Responses;
 using TestWebApp.DAL.Models.Entities;
 using TestWebApp.WebAPI.Contracts.V1;
 
@@ -30,7 +30,7 @@ namespace TestWebApp.WebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest("Model is not valid");
             var user = await _userManager.FindByEmailAsync(request.Email);
 
@@ -96,6 +96,53 @@ namespace TestWebApp.WebAPI.Controllers
                 }
             }
             return Ok(new AuthResponse { Errors = new List<string> { "User not found or not valid." } }); ;
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string email)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var callbackUrl = Url.Action(
+            "ConfirmEmail",
+            "Account",
+            new
+            {
+                userId = user.Id,
+                code = code
+            },
+                protocol: HttpContext.Request.Scheme);
+
+            await new EmailService()
+                .SendEmailAsync(email,
+                "Confirm your account",
+                $"Confirm your registration by following the <a href='{callbackUrl}'>link</a>.");
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+                return BadRequest();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return BadRequest();
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (!result.Succeeded)
+                return BadRequest();
+
+            return Ok();
         }
     }
 }
