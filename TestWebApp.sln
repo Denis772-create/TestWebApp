@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{396F43DE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebApp.UnitTests", "TestWebApp.UnitTests\TestWebApp.UnitTests.csproj", "{DE2B94F5-C7FB-4777-BA89-9203D702D720}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp.ReviewsServer", "TestWebApp.ReviewsServer\TestWebApp.ReviewsServer.csproj", "{258B5163-E60E-4EA5-8445-2CFF6E16539C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp.ReviewServer", "TestWebApp.ReviewsServer\TestWebApp.ReviewServer.csproj", "{258B5163-E60E-4EA5-8445-2CFF6E16539C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
