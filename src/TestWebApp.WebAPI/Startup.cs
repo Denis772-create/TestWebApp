@@ -91,7 +91,7 @@ namespace TestWebApp.WebAPI
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
+            
             services.AddScoped<Authenticator>();
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
