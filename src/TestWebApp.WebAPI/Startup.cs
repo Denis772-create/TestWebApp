@@ -45,11 +45,8 @@ namespace TestWebApp.WebAPI
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection"),
-                    options => options.MigrationsAssembly("TestWebApp.DAL"));
-            });
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"),
+                    builder => builder.MigrationsAssembly("TestWebApp.DAL")));
 
             var jwtAuthConfig = new JwtAuth();
             Configuration.Bind("JwtAuth", jwtAuthConfig);
@@ -91,7 +88,7 @@ namespace TestWebApp.WebAPI
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            
+
             services.AddScoped<Authenticator>();
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IOrderRepository, OrderRepository>();

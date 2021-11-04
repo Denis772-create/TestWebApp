@@ -55,7 +55,7 @@ namespace TestWebApp.WebAPI.Controllers
         [AllowAnonymous]
         public IActionResult ResetPassword(string code = null)
         {
-            return code == null ? BadRequest() : Ok(code);
+            return code == null ? (IActionResult) BadRequest() : Ok(code);
         }
 
         [HttpPost(ApiRoutes.Account.ResetPassword)]
