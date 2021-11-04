@@ -25,6 +25,13 @@ namespace TestWebApp.ReviewServer
             services.AddSignalR();
             services.AddControllers();
 
+            services.AddCors(options =>
+                options.AddPolicy("ShopUrlPolicy", builder =>
+                {
+                    builder.AllowCredentials();
+                    builder.WithOrigins("https://localhost:44366/");
+                }));
+
             services.AddDbContext<ApplicationDbContext>(options=>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly("TestWebApp.DAL")));
@@ -48,6 +55,8 @@ namespace TestWebApp.ReviewServer
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+
+            app.UseCors("ShopUrlPolicy");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
