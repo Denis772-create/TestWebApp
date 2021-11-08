@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ardalis.Filters;
 using AutoMapper;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +56,7 @@ namespace TestWebApp.ReviewServer.Controllers
 
 
         [HttpPost("create")]
+        [ValidateModel]
         public async Task<ActionResult<Room>> Create(RoomDto roomDto)
         {
             if (_context.Rooms.Any(u => u.Name == roomDto.Name))
@@ -76,6 +78,7 @@ namespace TestWebApp.ReviewServer.Controllers
         }
 
         [HttpPut("edit/{id}")]
+        [ValidateModel]
         public async Task<IActionResult> Edit(int id, RoomDto roomDto)
         {
             if (_context.Rooms.Any(r => r.Name == roomDto.Name))

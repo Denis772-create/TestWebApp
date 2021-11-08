@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Linq;
+using Ardalis.Filters;
 
 namespace TestWebApp.WebAPI.Controllers
 {
@@ -25,11 +26,9 @@ namespace TestWebApp.WebAPI.Controllers
         }
 
         [HttpPost(ApiRoutes.Auth.Login)]
+        [ValidateModel]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(new AuthResponse { Errors = ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage)) });
-
             var resultLogin = await _identityService.LoginAsync(request);
             var response = resultLogin.Value;
 
@@ -40,11 +39,9 @@ namespace TestWebApp.WebAPI.Controllers
         }
 
         [HttpPost(ApiRoutes.Auth.Register)]
+        [ValidateModel]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(new AuthResponse { Errors = ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage)) });
-
             var resultLogin = await _identityService.RegisterAsync(request);
             var response = resultLogin.Value;
 
@@ -69,11 +66,9 @@ namespace TestWebApp.WebAPI.Controllers
         }
 
         [HttpPost(ApiRoutes.Auth.Refresh)]
+        [ValidateModel]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(new AuthResponse { Errors = ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage)) });
-
             var resultLogin = await _identityService.RefreshTokenAsync(request);
             var response = resultLogin.Value;
 

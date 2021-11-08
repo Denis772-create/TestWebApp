@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Ardalis.Filters;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -47,14 +48,11 @@ namespace TestWebApp.ReviewServer.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateModel]
         public async Task<IActionResult> Upload([FromForm] UploadDto uploadDto)
         {
-            if (!ModelState.IsValid) return BadRequest();
             if (!Validate(uploadDto.File))
-            {
                 return BadRequest("Validation failed!");
-            }
 
             var fileName = DateTime.Now.ToString("yyyymmddMMss") + "_" + Path.GetFileName(uploadDto.File.FileName);
             var folderPath = Path.Combine(_environment.WebRootPath, "uploads");

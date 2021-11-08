@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Ardalis.Filters;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -65,6 +66,7 @@ namespace TestWebApp.ReviewServer.Controllers
         }
 
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult<MessageDto>> Create(MessageDto messageDto)
         {
             var user = await _context.User.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);

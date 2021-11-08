@@ -5,6 +5,7 @@ using TestWebApp.WebAPI.Contracts.V1;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Linq;
+using Ardalis.Filters;
 
 namespace TestWebApp.WebAPI.Controllers
 {
@@ -42,11 +43,9 @@ namespace TestWebApp.WebAPI.Controllers
 
 
         [HttpPost(ApiRoutes.Product.Create)]
+        [ValidateModel]
         public async Task<IActionResult> CreateAsync([FromBody] ProductRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState.Values.SelectMany(e => e.Errors.Select(ee => ee.ErrorMessage)));
-
             var productDto = new Product()
             {
                 Title = request.Title,

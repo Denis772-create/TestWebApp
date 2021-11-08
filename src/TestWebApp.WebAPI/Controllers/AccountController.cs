@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ardalis.Filters;
 using TestWebApp.BLL.Services.Identity.Implement;
 using TestWebApp.DAL.Models.Auth.Request;
 using TestWebApp.DAL.Models.Auth.Responses;
@@ -27,11 +28,10 @@ namespace TestWebApp.WebAPI.Controllers
         }
 
         [HttpPost(ApiRoutes.Account.ForgotPassword)]
+        [ValidateModel]
         [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("Model is not valid");
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             //todo: if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
@@ -55,16 +55,14 @@ namespace TestWebApp.WebAPI.Controllers
         [AllowAnonymous]
         public IActionResult ResetPassword(string code = null)
         {
-            return code == null ? (IActionResult) BadRequest() : Ok(code);
+            return code == null ? (IActionResult)BadRequest() : Ok(code);
         }
 
         [HttpPost(ApiRoutes.Account.ResetPassword)]
+        [ValidateModel]
         [AllowAnonymous]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest resetRequest)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var user = await _userManager.FindByEmailAsync(resetRequest.Email);
             if (user == null)
                 return BadRequest();
@@ -77,33 +75,25 @@ namespace TestWebApp.WebAPI.Controllers
         }
 
         [HttpPost(ApiRoutes.Account.ChangePassword)]
+        [ValidateModel]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest changePassword)
         {
-            if (ModelState.IsValid)
-            {
-                User user = await _userManager.FindByEmailAsync(changePassword.Email);
-                if (user == null)
-                    return NotFound();
+            User user = await _userManager.FindByEmailAsync(changePassword.Email);
+            if (user == null)
+                return NotFound();
 
-                if (user != null)
-                {
-                    IdentityResult result =
-                        await _userManager.ChangePasswordAsync(user, changePassword.OldPassword, changePassword.NewPassword);
-                    if (result.Succeeded)
-                        return Ok();
-                    else
-                        return Ok(new AuthResponse { Errors = result.Errors.Select(x => x.Description) });
-                }
-            }
-            return Ok(new AuthResponse { Errors = new List<string> { "User not found or not valid." } }); ;
+            IdentityResult result =
+                await _userManager.ChangePasswordAsync(user, changePassword.OldPassword, changePassword.NewPassword);
+            if (result.Succeeded)
+                return Ok();
+            else
+                return Ok(new AuthResponse { Errors = result.Errors.Select(x => x.Description) });
         }
 
         [HttpPost(ApiRoutes.Account.ConfirmEmail)]
+        [ValidateModel]
         public async Task<IActionResult> ConfirmEmail(string email)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var user = await _userManager.FindByEmailAsync(email);
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
