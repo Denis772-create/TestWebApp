@@ -25,7 +25,7 @@ namespace TestWebApp.BLL.Services.Identity.Implement
             using var client = new MailKit.Net.Smtp.SmtpClient();
 
             await client.ConnectAsync("smtp.gmail.com", 465, true);
-            await client.AuthenticateAsync("aleksandrovdenis418@gmail.com", "3denis10sveta");
+            await client.AuthenticateAsync("aleksandrovdenis418@gmail.com", "***");
 
             await client.SendAsync(emailMessage);
 
